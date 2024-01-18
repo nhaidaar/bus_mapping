@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_route/pages/maps.dart';
-import 'package:maps_route/shared/place.dart';
+import 'package:maps_route/services/api_service.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,27 +16,37 @@ class HomePage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        children: [
-          ...List.generate(place.length, (index) {
-            return ListTile(
-              onTap: () async {
-                await Geolocator.requestPermission();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => MapsPage(
-                      latitude: place[index]['latitude'],
-                      longitude: place[index]['longitude'],
-                    ),
-                  ),
+      body: FutureBuilder(
+        future: ApiService().fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => Maps(
+                          destination: LatLng(
+                            double.tryParse(snapshot.data![index].latitude)!,
+                            double.tryParse(snapshot.data![index].longitude)!,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  title: Text(snapshot.data![index].namaPerusahaan),
+                  subtitle: Text(snapshot.data![index].alamat),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 );
               },
-              title: Text(place[index]['title'].toString()),
-              subtitle: Text(place[index]['subtitle'].toString()),
-              trailing: const Icon(Icons.arrow_forward_ios),
             );
-          })
-        ],
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

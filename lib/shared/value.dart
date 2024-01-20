@@ -1,2 +1,2 @@
-String mapsApi = 'AIzaSyCEGzTEW3sBXQNNpoMH3OvNBI-TnJouBzk';
+String mapsApi = 'DROP YOUR MAPS API';
 String restApi = 'https://belajarkomputermedan.com/deni/rest.php';

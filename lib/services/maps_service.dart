@@ -3,7 +3,11 @@ import 'package:geolocator/geolocator.dart';
 
 class MapsService {
   Future<Position> getUserCurrentPosition() async {
-    await Geolocator.requestPermission();
+    await Geolocator.checkPermission().then((value) async {
+      if (value == LocationPermission.denied) {
+        await Geolocator.requestPermission();
+      }
+    });
     return await Geolocator.getCurrentPosition();
   }
 

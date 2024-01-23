@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:maps_route/models/company_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:maps_route/shared/value.dart';
+
+import '../models/company_model.dart';
+import '../shared/value.dart';
 
 class ApiService {
   Future<List<CompanyModel>> fetchData() async {

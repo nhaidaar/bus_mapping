@@ -37,7 +37,7 @@ class Login extends StatelessWidget {
                   'Selamat Datang 👋',
                   style: mediumTS.copyWith(fontSize: 28),
                 ),
-                const Gap(64),
+                const Gap(40),
                 CustomButton(
                   text: 'Login with Google',
                   iconUrl: 'assets/login_google.png',

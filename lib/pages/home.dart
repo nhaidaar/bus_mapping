@@ -2,15 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:geolocator_platform_interface/src/models/position.dart';
-import 'package:maps_route/pages/list.dart';
-import 'package:maps_route/pages/login.dart';
-import 'package:maps_route/services/maps_service.dart';
-import 'package:maps_route/shared/theme.dart';
-import 'package:maps_route/widgets/custom_button.dart';
-import 'package:maps_route/widgets/custom_field.dart';
+
+import '../shared/theme.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/custom_field.dart';
 
 import '../blocs/auth/auth_bloc.dart';
+import '../blocs/maps/maps_bloc.dart';
+
+import 'list.dart';
+import 'login.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -114,13 +115,19 @@ class _HomeState extends State<Home> {
               const Gap(30),
               CustomButtonWithArrow(
                 text: 'LANJUTKAN',
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ListLocation(
-                      priceRequest: int.tryParse(hargaController.text)!,
-                    ),
-                  ),
-                ),
+                onTap: () {
+                  if (hargaController.text.isEmpty) {
+                    showMessage(context, 'Harap isi harga yang diinginkan!');
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ListLocation(
+                          priceRequest: int.tryParse(hargaController.text)!,
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
               const Gap(20),
               TextButton(
@@ -139,30 +146,41 @@ class _HomeState extends State<Home> {
     );
   }
 
-  FutureBuilder<Position> getUserAddress() {
-    return FutureBuilder(
-      future: MapsService().getUserCurrentPosition(),
-      builder: (context, position) {
-        if (position.hasData) {
-          return FutureBuilder(
-            future: MapsService().getFullAddressFromPosition(
-              position.data!,
-            ),
-            builder: (context, address) {
-              if (address.hasData) {
-                return Text(
-                  address.data.toString(),
-                  style: mediumTS,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                );
-              }
-              return const Text('-');
-            },
-          );
-        }
-        return const Text('-');
-      },
+  void showMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: mediumTS,
+        ),
+      ),
+    );
+  }
+
+  BlocProvider<MapsBloc> getUserAddress() {
+    return BlocProvider(
+      create: (context) => MapsBloc()..add(MapsCurrentLocationEvent()),
+      child: BlocBuilder<MapsBloc, MapsState>(
+        builder: (context, state) {
+          if (state is MapsLoaded) {
+            return BlocProvider(
+              create: (context) =>
+                  MapsBloc()..add(MapsGetAddressEvent(state.position)),
+              child: BlocBuilder<MapsBloc, MapsState>(
+                builder: (context, state) {
+                  return Text(
+                    (state is AddressSuccess) ? state.address : '-',
+                    style: mediumTS,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                },
+              ),
+            );
+          }
+          return const Text('-');
+        },
+      ),
     );
   }
 }

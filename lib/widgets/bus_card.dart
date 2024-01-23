@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:maps_route/models/company_model.dart';
-import 'package:maps_route/shared/theme.dart';
+import '../models/company_model.dart';
+import '../shared/theme.dart';
 
 class BusCard extends StatelessWidget {
   final CompanyModel model;
@@ -25,9 +25,11 @@ class BusCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${model.namaPerusahaan} - Rp ${model.harga}',
-                  style: semiboldTS.copyWith(fontSize: 20),
+                Expanded(
+                  child: Text(
+                    '${model.namaPerusahaan} - Rp ${model.harga}',
+                    style: semiboldTS.copyWith(fontSize: 20),
+                  ),
                 ),
                 const Icon(
                   Icons.arrow_forward_ios,
@@ -35,7 +37,12 @@ class BusCard extends StatelessWidget {
                 )
               ],
             ),
-            const Gap(18),
+            const Gap(5),
+            Text(
+              '${model.namaPelayanan} (${model.namaWaktu})',
+              style: semiboldTS.copyWith(fontSize: 18),
+            ),
+            const Gap(10),
             Text(
               model.alamat,
               style: mediumTS,
@@ -44,6 +51,12 @@ class BusCard extends StatelessWidget {
             const Gap(30),
             Text(
               'Fasilitas: ${model.namaFasilitas}',
+              style: regularTS,
+              textAlign: TextAlign.justify,
+            ),
+            const Gap(8),
+            Text(
+              'Keamanan: ${model.namaKeamanan}',
               style: regularTS,
               textAlign: TextAlign.justify,
             ),

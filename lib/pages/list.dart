@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_route/models/company_model.dart';
-import 'package:maps_route/pages/maps.dart';
-import 'package:maps_route/services/api_service.dart';
-import 'package:maps_route/shared/method.dart';
-import 'package:maps_route/widgets/bus_card.dart';
-
+import '../models/company_model.dart';
+import '../pages/maps.dart';
+import '../services/api_service.dart';
+import '../shared/method.dart';
 import '../shared/theme.dart';
+import '../widgets/bus_card.dart';
 
 class ListLocation extends StatelessWidget {
   final int priceRequest;

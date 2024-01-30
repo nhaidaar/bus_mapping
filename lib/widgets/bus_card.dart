@@ -22,6 +22,18 @@ class BusCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).focusColor,
+                image: DecorationImage(
+                  image: NetworkImage(model.foto),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const Gap(14),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

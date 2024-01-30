@@ -14,9 +14,7 @@ class Login extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const Home()),
-              (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const Home()), (route) => false);
         }
       },
       builder: (context, state) {
@@ -33,6 +31,18 @@ class Login extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/logo.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const Gap(14),
                 Text(
                   'Selamat Datang 👋',
                   style: mediumTS.copyWith(fontSize: 28),

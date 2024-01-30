@@ -29,9 +29,7 @@ class _HomeState extends State<Home> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticated) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const Login()),
-              (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const Login()), (route) => false);
         }
       },
       child: Scaffold(
@@ -41,7 +39,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Aplikasi Mapping',
+                'Mapping',
                 style: semiboldTS.copyWith(fontSize: 24),
               ),
               Text(
@@ -105,8 +103,7 @@ class _HomeState extends State<Home> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 10),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       ),
                     ),
                   ),
@@ -164,8 +161,7 @@ class _HomeState extends State<Home> {
         builder: (context, state) {
           if (state is MapsLoaded) {
             return BlocProvider(
-              create: (context) =>
-                  MapsBloc()..add(MapsGetAddressEvent(state.position)),
+              create: (context) => MapsBloc()..add(MapsGetAddressEvent(state.position)),
               child: BlocBuilder<MapsBloc, MapsState>(
                 builder: (context, state) {
                   return Text(

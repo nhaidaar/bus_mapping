@@ -16,7 +16,7 @@ class ListLocation extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Aplikasi Mapping',
+          'Mapping',
           style: boldTS,
         ),
         centerTitle: true,

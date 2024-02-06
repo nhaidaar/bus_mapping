@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/company_model.dart';
+import '../models/filter_model.dart';
 import '../pages/maps.dart';
 import '../services/api_service.dart';
 import '../shared/method.dart';
@@ -8,8 +9,8 @@ import '../shared/theme.dart';
 import '../widgets/bus_card.dart';
 
 class ListLocation extends StatelessWidget {
-  final int priceRequest;
-  const ListLocation({super.key, required this.priceRequest});
+  final FilterModel model;
+  const ListLocation({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,10 @@ class ListLocation extends StatelessWidget {
             // Check in every element
             // Add element with price <= price request
             for (CompanyModel data in snapshot.data!) {
-              if (int.tryParse(data.harga)! <= priceRequest) {
+              if (data.namaFasilitas == model.fasilitas &&
+                  data.namaPelayanan == model.pelayanan &&
+                  data.namaKeamanan == model.keamanan &&
+                  data.namaWaktu == model.waktu) {
                 filtered.add(data);
               }
             }

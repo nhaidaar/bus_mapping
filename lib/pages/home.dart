@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:maps_route/models/filter_model.dart';
+import 'package:maps_route/pages/list_bus.dart';
 import 'package:maps_route/shared/value.dart';
 
 import '../shared/theme.dart';
@@ -39,22 +40,69 @@ class _HomeState extends State<Home> {
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 70,
+          title: Column(
+            children: [
+              Text(
+                'Mapping',
+                style: semiboldTS.copyWith(fontSize: 24),
+              ),
+              const Gap(6),
+              Text(
+                user!.email!,
+                style: mediumTS.copyWith(fontSize: 14),
+              ),
+            ],
+          ),
+          centerTitle: true,
+        ),
+        drawer: Drawer(
+          child: Column(
+            children: [
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: Theme.of(context).focusColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        'Aplikasi Mapping',
+                        style: boldTS.copyWith(fontSize: 24),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  children: [
+                    ListTile(
+                      trailing: const Icon(Icons.directions_bus),
+                      title: const Text('Data Bus'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ListBus(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
         body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 80),
+          padding: const EdgeInsets.all(40),
           children: [
-            Column(
-              children: [
-                Text(
-                  'Mapping',
-                  style: semiboldTS.copyWith(fontSize: 24),
-                ),
-                Text(
-                  user!.email!,
-                  style: mediumTS.copyWith(height: 2),
-                ),
-              ],
-            ),
-            const Gap(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

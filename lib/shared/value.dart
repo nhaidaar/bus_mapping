@@ -33,3 +33,19 @@ List<String> listWaktu = [
   '2 hari - 3 hari',
   '3 hari - seminggu',
 ];
+
+List<String> listBus = [
+  'FA. PMTOH',
+  'CV. Sanura',
+  'DAMRI',
+  'PT. Armada Indah',
+  'PT. Aceh Transport (ATS)',
+  'PT. Bintang Sempati Star',
+  'PT. Putra Pelangi Perkasa',
+  'PT. ALS',
+  'PT. Harapan Indah',
+  'PT. Pelangi Atra Krana',
+  'PT. Cahaya Kembar Jaya',
+  'PT. Kurnia Anugerah',
+  'PT. Anugerah'
+];

@@ -2,18 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:maps_route/models/filter_model.dart';
-import 'package:maps_route/pages/list_bus.dart';
-import 'package:maps_route/shared/value.dart';
+import 'package:maps_route/pages/menu_dataagen.dart';
+import 'package:maps_route/pages/menu_pencarian.dart';
 
 import '../shared/theme.dart';
-import '../widgets/custom_button.dart';
 import '../widgets/custom_field.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/maps/maps_bloc.dart';
 
-import 'list.dart';
 import 'login.dart';
 
 class Home extends StatefulWidget {
@@ -26,17 +23,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final user = FirebaseAuth.instance.currentUser;
 
-  String fasilitas = listFasilitas.first;
-  String pelayanan = listPelayanan.first;
-  String keamanan = listKeamanan.first;
-  String waktu = listWaktu.first;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is UnAuthenticated) {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const Login()), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const Login()),
+            (route) => false,
+          );
         }
       },
       child: Scaffold(
@@ -45,8 +40,8 @@ class _HomeState extends State<Home> {
           title: Column(
             children: [
               Text(
-                'Mapping',
-                style: semiboldTS.copyWith(fontSize: 24),
+                'Halo 👋',
+                style: semiboldTS.copyWith(fontSize: 22),
               ),
               const Gap(6),
               Text(
@@ -57,223 +52,70 @@ class _HomeState extends State<Home> {
           ),
           centerTitle: true,
         ),
-        drawer: Drawer(
+        drawer: const HomeDrawer(),
+        body: Padding(
+          padding: const EdgeInsets.all(40),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 200,
-                width: double.infinity,
-                color: Theme.of(context).focusColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Text(
-                        'Aplikasi Mapping',
-                        style: boldTS.copyWith(fontSize: 24),
-                      ),
-                    ),
-                  ],
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: const DecorationImage(
+                    image: AssetImage('assets/logo.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  children: [
-                    ListTile(
-                      trailing: const Icon(Icons.directions_bus),
-                      title: const Text('Data Bus'),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ListBus(),
-                          ),
-                        );
-                      },
+              const Gap(40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Lokasi Anda : ',
+                    style: mediumTS.copyWith(fontSize: 15),
+                  ),
+                  const Gap(10),
+                  Expanded(
+                    child: CustomField(
+                      child: getUserAddress(),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              const Gap(16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Tujuan Anda : ',
+                    style: mediumTS.copyWith(fontSize: 15),
+                  ),
+                  const Gap(10),
+                  Expanded(
+                    child: CustomField(
+                      child: Text(
+                        'Aceh',
+                        style: mediumTS,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(30),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(AuthSignOut());
+                },
+                child: Text(
+                  'Log out',
+                  style: semiboldTS.copyWith(fontSize: 16),
                 ),
               ),
             ],
           ),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(40),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Lokasi Anda : ',
-                  style: mediumTS.copyWith(fontSize: 15),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: CustomField(
-                    child: getUserAddress(),
-                  ),
-                ),
-              ],
-            ),
-            const Gap(16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Tujuan Anda : ',
-                  style: mediumTS.copyWith(fontSize: 15),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: CustomField(
-                    child: Text(
-                      'Aceh',
-                      style: mediumTS,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Gap(30),
-            Text(
-              'Filter',
-              style: boldTS.copyWith(fontSize: 18),
-            ),
-            const Gap(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Fasilitas : ',
-                  style: mediumTS.copyWith(fontSize: 15),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: CustomDropdownField(
-                    items: List.generate(listFasilitas.length, (index) {
-                      return DropdownMenuItem(
-                        value: listFasilitas[index],
-                        child: Text(listFasilitas[index]),
-                      );
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        fasilitas = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const Gap(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Pelayanan : ',
-                  style: mediumTS.copyWith(fontSize: 15),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: CustomDropdownField(
-                    items: List.generate(listPelayanan.length, (index) {
-                      return DropdownMenuItem(
-                        value: listPelayanan[index],
-                        child: Text(listPelayanan[index]),
-                      );
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        pelayanan = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const Gap(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Keamanan : ',
-                  style: mediumTS.copyWith(fontSize: 15),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: CustomDropdownField(
-                    items: List.generate(listKeamanan.length, (index) {
-                      return DropdownMenuItem(
-                        value: listKeamanan[index],
-                        child: Text(listKeamanan[index]),
-                      );
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        keamanan = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const Gap(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Waktu : ',
-                  style: mediumTS.copyWith(fontSize: 15),
-                ),
-                const Gap(10),
-                Expanded(
-                  child: CustomDropdownField(
-                    items: List.generate(listWaktu.length, (index) {
-                      return DropdownMenuItem(
-                        value: listWaktu[index],
-                        child: Text(listWaktu[index]),
-                      );
-                    }),
-                    onChanged: (value) {
-                      setState(() {
-                        waktu = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const Gap(30),
-            CustomButtonWithArrow(
-                text: 'LANJUTKAN',
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ListLocation(
-                        model: FilterModel(
-                          fasilitas: fasilitas,
-                          keamanan: keamanan,
-                          pelayanan: pelayanan,
-                          waktu: waktu,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-            const Gap(20),
-            TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthSignOut());
-              },
-              child: Text(
-                'Log out',
-                style: semiboldTS.copyWith(fontSize: 16),
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -312,6 +154,97 @@ class _HomeState extends State<Home> {
           }
           return const Text('-');
         },
+      ),
+    );
+  }
+}
+
+class HomeDrawer extends StatelessWidget {
+  const HomeDrawer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          Container(
+            height: 200,
+            width: double.infinity,
+            color: Theme.of(context).focusColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    'Aplikasi Mapping',
+                    style: boldTS.copyWith(fontSize: 24),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              children: [
+                ListTile(
+                  onTap: () => Navigator.of(context).pop(),
+                  trailing: const Icon(Icons.home),
+                  title: const Text('Home'),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MenuPencarian(),
+                      ),
+                    );
+                  },
+                  trailing: const Icon(Icons.search),
+                  title: const Text('Pencarian'),
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.directions_bus),
+                  title: const Text('Data Agen'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ListBus(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          insetPadding: const EdgeInsets.all(20),
+                          title: Text(
+                            'Tentang Aplikasi',
+                            style: semiboldTS,
+                            textAlign: TextAlign.center,
+                          ),
+                          content: Text(
+                            'Aplikasi mapping ini dibuat untuk melakukan pencarian bus terdekat dengan metode djikstra dan topsis.',
+                            style: mediumTS.copyWith(fontSize: 15),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }),
+                  trailing: const Icon(Icons.info_outline),
+                  title: const Text('Tentang Aplikasi'),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -6,10 +6,7 @@ import 'package:maps_route/pages/menu_dataagen.dart';
 import 'package:maps_route/pages/menu_pencarian.dart';
 
 import '../shared/theme.dart';
-import '../widgets/custom_field.dart';
-
 import '../blocs/auth/auth_bloc.dart';
-import '../blocs/maps/maps_bloc.dart';
 
 import 'login.dart';
 
@@ -53,14 +50,13 @@ class _HomeState extends State<Home> {
           centerTitle: true,
         ),
         drawer: const HomeDrawer(),
-        body: Padding(
-          padding: const EdgeInsets.all(40),
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 100,
-                width: 100,
+                height: 200,
+                width: 200,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: const DecorationImage(
@@ -70,41 +66,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
               const Gap(40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Lokasi Anda : ',
-                    style: mediumTS.copyWith(fontSize: 15),
-                  ),
-                  const Gap(10),
-                  Expanded(
-                    child: CustomField(
-                      child: getUserAddress(),
-                    ),
-                  ),
-                ],
-              ),
-              const Gap(16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Tujuan Anda : ',
-                    style: mediumTS.copyWith(fontSize: 15),
-                  ),
-                  const Gap(10),
-                  Expanded(
-                    child: CustomField(
-                      child: Text(
-                        'Aceh',
-                        style: mediumTS,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Gap(30),
               TextButton(
                 onPressed: () {
                   context.read<AuthBloc>().add(AuthSignOut());
@@ -117,43 +78,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void showMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: mediumTS,
-        ),
-      ),
-    );
-  }
-
-  BlocProvider<MapsBloc> getUserAddress() {
-    return BlocProvider(
-      create: (context) => MapsBloc()..add(MapsCurrentLocationEvent()),
-      child: BlocBuilder<MapsBloc, MapsState>(
-        builder: (context, state) {
-          if (state is MapsLoaded) {
-            return BlocProvider(
-              create: (context) => MapsBloc()..add(MapsGetAddressEvent(state.position)),
-              child: BlocBuilder<MapsBloc, MapsState>(
-                builder: (context, state) {
-                  return Text(
-                    (state is AddressSuccess) ? state.address : '-',
-                    style: mediumTS,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  );
-                },
-              ),
-            );
-          }
-          return const Text('-');
-        },
       ),
     );
   }

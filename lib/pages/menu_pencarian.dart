@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import '../blocs/maps/maps_bloc.dart';
 import '../models/filter_model.dart';
 import '../shared/theme.dart';
 import '../shared/value.dart';
@@ -34,6 +36,41 @@ class _MenuPencarianState extends State<MenuPencarian> {
       body: ListView(
         padding: const EdgeInsets.all(40),
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Lokasi Anda : ',
+                style: mediumTS.copyWith(fontSize: 15),
+              ),
+              const Gap(10),
+              Expanded(
+                child: CustomField(
+                  child: getUserAddress(),
+                ),
+              ),
+            ],
+          ),
+          const Gap(16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Tujuan Anda : ',
+                style: mediumTS.copyWith(fontSize: 15),
+              ),
+              const Gap(10),
+              Expanded(
+                child: CustomField(
+                  child: Text(
+                    'Aceh',
+                    style: mediumTS,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Gap(40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -155,6 +192,32 @@ class _MenuPencarianState extends State<MenuPencarian> {
                 );
               }),
         ],
+      ),
+    );
+  }
+
+  BlocProvider<MapsBloc> getUserAddress() {
+    return BlocProvider(
+      create: (context) => MapsBloc()..add(MapsCurrentLocationEvent()),
+      child: BlocBuilder<MapsBloc, MapsState>(
+        builder: (context, state) {
+          if (state is MapsLoaded) {
+            return BlocProvider(
+              create: (context) => MapsBloc()..add(MapsGetAddressEvent(state.position)),
+              child: BlocBuilder<MapsBloc, MapsState>(
+                builder: (context, state) {
+                  return Text(
+                    (state is AddressSuccess) ? state.address : '-',
+                    style: mediumTS,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                },
+              ),
+            );
+          }
+          return const Text('-');
+        },
       ),
     );
   }

@@ -10,6 +10,7 @@ class CompanyModel {
   final String namaKeamanan;
   final String namaPelayanan;
   final String namaWaktu;
+  final String bobot;
 
   CompanyModel({
     required this.id,
@@ -23,6 +24,7 @@ class CompanyModel {
     required this.namaKeamanan,
     required this.namaPelayanan,
     required this.namaWaktu,
+    required this.bobot,
   });
 
   factory CompanyModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class CompanyModel {
       namaPelayanan: json['nama_pelayanan'].toString(),
       namaWaktu: json['nama_waktu'].toString(),
       alamat: json['alamat'].toString(),
+      bobot: json['bobot'].toString(),
       foto: json['foto'].toString(),
       longitude: json['y'].toString(),
     );

@@ -4,7 +4,6 @@ import '../models/company_model.dart';
 import '../models/filter_model.dart';
 import '../pages/maps.dart';
 import '../services/api_service.dart';
-import '../shared/method.dart';
 import '../shared/theme.dart';
 import '../widgets/bus_card.dart';
 
@@ -69,7 +68,7 @@ class ListLocation extends StatelessWidget {
                             double.tryParse(filtered[index].longitude)!,
                           ),
                           locationName: filtered[index].namaPerusahaan,
-                          topsis: randomDouble(),
+                          topsis: filtered[index].bobot,
                         ),
                       ),
                     );

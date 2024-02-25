@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "507290901785",
-    "project_id": "aplikasi-mapping-1b5f8",
-    "storage_bucket": "aplikasi-mapping-1b5f8.appspot.com"
+    "project_number": "259109702718",
+    "project_id": "deni-8cdc9",
+    "storage_bucket": "deni-8cdc9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:507290901785:android:1f158991c0097ea87df988",
+        "mobilesdk_app_id": "1:259109702718:android:46819ba024e8c8e27bd56f",
         "android_client_info": {
           "package_name": "com.example.maps_route"
         }
       },
       "oauth_client": [
         {
-          "client_id": "507290901785-pf7mfpbk8k1n70ua6ojdbsd7808r8u6e.apps.googleusercontent.com",
+          "client_id": "259109702718-pnm0cd6o36ieap9p0b20ngnam4kejnc8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.maps_route",
-            "certificate_hash": "0e7936ede1c86acc71bf4a9782913c39cae817ed"
+            "certificate_hash": "cf2801e0957374fa69f050f4650f3f197df7c702"
           }
         },
         {
-          "client_id": "507290901785-bbj3e4esl5av3ud92tq2ed7bd5gmjgcq.apps.googleusercontent.com",
+          "client_id": "259109702718-7cses7o4pgnl0jq8opgdb6c3pare01re.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQBHgKpZ5_xs2dD141yaa6IPAMHDOdoLk"
+          "current_key": "AIzaSyBAtOiYVPBsmEXxxCmL2Jkp458lcTemHlc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "507290901785-bbj3e4esl5av3ud92tq2ed7bd5gmjgcq.apps.googleusercontent.com",
+              "client_id": "259109702718-7cses7o4pgnl0jq8opgdb6c3pare01re.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_route/models/company_model.dart';
 import 'package:maps_route/widgets/custom_button.dart';
 
-import '../shared/method.dart';
 import '../shared/theme.dart';
 import 'maps.dart';
 
@@ -99,7 +98,7 @@ class DetailAgen extends StatelessWidget {
                       double.tryParse(model.longitude)!,
                     ),
                     locationName: model.namaPerusahaan,
-                    topsis: randomDouble(),
+                    topsis: model.bobot,
                   ),
                 ),
               );

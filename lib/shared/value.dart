@@ -24,6 +24,7 @@ List<String> listPelayanan = [
   'Executives',
   'VIP',
   'Ekonomi AC/Toilet',
+  'Patas',
 ];
 
 List<String> listWaktu = [
